@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button  class="btn btn-default"><i   class="fas fa-plus"></i></button>
+                           <button id="minus-Id-forCase" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="case-quantity" type="text" class="form-control text-center" value="1">
+                           <button id="plus-Id-forCase"  class="btn btn-default"><i   class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="case-Price">59</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -65,8 +65,8 @@
 
                      <div class="col-md-4 status">
                         <h5>$<span id="sub-Total">1,278</span></h5>
-                        <h5>$0</h5>
-                        <h5>$ <span id="total-Price">1,278</span></h5>
+                        <h5>$<span id='tax-amount'>0</span></h5>
+                        <h5>$ <span id="grand-Total">1,278</span></h5>
                      </div>
                   </div>
                </div>
@@ -82,46 +82,102 @@
       //plus button
   const plusBtn=document.getElementById('plus-Id');
   plusBtn.addEventListener('click',function(){
-//   const mobileQuantityInput=document.getElementById('mobile-quantity');
-  
-//   const mobileQuantityInputNumber=parseInt(mobileQuantityInput.value);
-//   const mobileQuantityInputNumberNew=mobileQuantityInputNumber+1;
-//   mobileQuantityInput.value=mobileQuantityInputNumberNew;
-
-//   const mobilePrice=mobileQuantityInputNumberNew*1217;
-//   console.log(mobilePrice);
-//   document.getElementById('mobile-Price').innerText=mobilePrice;
-handleProductChange(true);
+handleProductChange('mobile-quantity',true);
 
   });
      //minus-button   
   const minusBtn=document.getElementById('minus-Id');
   minusBtn.addEventListener('click',function(){
-   handleProductChange(false);
+   handleProductChange('mobile-quantity',false);
   });
     
-  function handleProductChange(isIncrease){
-   const mobileQuantityInput=document.getElementById('mobile-quantity');
+// function handleProductChange(isIncrease){
+//    const mobileQuantityInput=document.getElementById('mobile-quantity');
   
-  const mobileQuantityInputNumber=parseInt(mobileQuantityInput.value);
-//   const mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
-var mobileQuantityInputNumberNew;
+//   const mobileQuantityInputNumber=parseInt(mobileQuantityInput.value);
+// //   const mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
+// // var mobileQuantityInputNumberNew;
 
-mobileQuantityInputNumberNew=mobileQuantityInputNumber;
+// var mobileQuantityInputNumberNew=0;
+// if(isIncrease==true){
+//    mobileQuantityInputNumberNew=mobileQuantityInputNumber+1;
+// }
+// else if(isIncrease==false && mobileQuantityInputNumber>0){
+//    mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
+// }
+//   mobileQuantityInput.value=mobileQuantityInputNumberNew;
+
+//   const mobilePrice=mobileQuantityInputNumberNew*1217;
+//   console.log(mobilePrice);
+//   document.getElementById('mobile-Price').innerText=mobilePrice;
+//   }
+
+
+
+
+//plus id for case
+
+const plusIdForCaseBtn=document.getElementById('plus-Id-forCase');
+plusIdForCaseBtn.addEventListener('click',function(){
+   handleProductChange('case-quantity',true);
+
+});
+
+//minus id for case
+const minusIdForCaseBtn=document.getElementById('minus-Id-forCase');
+minusIdForCaseBtn.addEventListener('click',function(){
+   handleProductChange('case-quantity',false);
+});
+
+
+//function
+function handleProductChange(product,isIncrease)
+{
+   const caseQuantityInput=document.getElementById(product) ;
+  const caseQuantityInputNumber=parseInt(caseQuantityInput.value);
+//   console.log(caseQuantityInputNumber);
+var caseQuantityInputNumberNew=0;
 if(isIncrease==true){
-   mobileQuantityInputNumberNew=mobileQuantityInputNumber+1;
+    caseQuantityInputNumberNew=caseQuantityInputNumber+1;
 }
-else if(isIncrease==false && mobileQuantityInputNumber>0){
-   mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
+
+else if(isIncrease==false && caseQuantityInputNumber>0)
+{
+   caseQuantityInputNumberNew=caseQuantityInputNumber-1;
 }
-  mobileQuantityInput.value=mobileQuantityInputNumberNew;
+ caseQuantityInput.value=caseQuantityInputNumberNew;
 
-  const mobilePrice=mobileQuantityInputNumberNew*1217;
-  console.log(mobilePrice);
-  document.getElementById('mobile-Price').innerText=mobilePrice;
-  }
+ let casePrice=0;
+ if(product=="mobile-quantity"){
+    casePrice=caseQuantityInputNumberNew*1217;
+    document.getElementById("mobile-Price").innerText=casePrice;
+ }
+ else if(product=="case-quantity"){
+   casePrice=caseQuantityInputNumberNew*59;
+   document.getElementById("case-Price").innerText=casePrice;
+ }
+//  console.log(casePrice);
+calculateTotal();
+}
 
+function calculateTotal()
+{
+   const mobilequantityInputForTotal=document.getElementById("mobile-quantity");
+   const mobilequantityInputForTotalNumber=parseInt(mobilequantityInputForTotal.value);
+   const casequantityInputForTotal=document.getElementById("case-quantity");
+   const casequantityInputForTotalNumber=parseInt(casequantityInputForTotal.value);
 
+   const totalPrice=mobilequantityInputForTotalNumber*1217+casequantityInputForTotalNumber*59;
+   document.getElementById("sub-Total").innerText=totalPrice;
+
+   const tax=Math.round(totalPrice*0.1);
+   document.getElementById('tax-amount').innerText=tax;
+
+   const grandTotal=totalPrice+tax;
+   document.getElementById("grand-Total").innerText=grandTotal;
+}
+
+//mobile
 //   //plus button
 //   const plusBtn=document.getElementById('plus-Id');
 //   plusBtn.addEventListener('click',function(){
@@ -148,6 +204,81 @@ else if(isIncrease==false && mobileQuantityInputNumber>0){
 //   console.log(mobilePrice);
 //   document.getElementById('mobile-Price').innerText=mobilePrice;
 //   });
+
+//mobile-case
+
+
+// const plusIdForCaseBtn=document.getElementById('plus-Id-forCase');
+// plusIdForCaseBtn.addEventListener('click',function(){
+//   const caseQuantityInput=document.getElementById('case-quantity') ;
+//   const caseQuantityInputNumber=parseInt(caseQuantityInput.value);
+// //   console.log(caseQuantityInputNumber);
+// const caseQuantityInputNumberNew=caseQuantityInputNumber+1;
+//  caseQuantityInput.value=caseQuantityInputNumberNew;
+//  const casePrice=caseQuantityInputNumberNew*59;
+// //  console.log(casePrice);
+//  document.getElementById('case-Price').innerText=casePrice;
+// })
+
+// //minus id for case
+// const minusIdForCaseBtn=document.getElementById('minus-Id-forCase');
+// minusIdForCaseBtn.addEventListener('click',function(){
+//   const caseQuantityInput=document.getElementById('case-quantity') ;
+//   const caseQuantityInputNumber=parseInt(caseQuantityInput.value);
+// //   console.log(caseQuantityInputNumber);
+// const caseQuantityInputNumberNew=caseQuantityInputNumber-1;
+//  caseQuantityInput.value=caseQuantityInputNumberNew;
+//const casePrice=caseQuantityInputNumberNew*59;
+//  console.log(casePrice);
+ //document.getElementById('case-Price').innerText=casePrice;
+// })
+
+
+//function-mobile:-------------------
+
+// function handleProductChange(isIncrease){
+//    const mobileQuantityInput=document.getElementById('mobile-quantity');
+  
+//   const mobileQuantityInputNumber=parseInt(mobileQuantityInput.value);
+// //   const mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
+// // var mobileQuantityInputNumberNew;
+
+// var mobileQuantityInputNumberNew=0;
+// if(isIncrease==true){
+//    mobileQuantityInputNumberNew=mobileQuantityInputNumber+1;
+// }
+// else if(isIncrease==false && mobileQuantityInputNumber>0){
+//    mobileQuantityInputNumberNew=mobileQuantityInputNumber-1;
+// }
+//   mobileQuantityInput.value=mobileQuantityInputNumberNew;
+
+//   const mobilePrice=mobileQuantityInputNumberNew*1217;
+//   console.log(mobilePrice);
+//   document.getElementById('mobile-Price').innerText=mobilePrice;
+//   }
+
+
+//function-case
+
+// function handleProductChangeForCase(isIncrease)
+// {
+//    const caseQuantityInput=document.getElementById('case-quantity') ;
+//   const caseQuantityInputNumber=parseInt(caseQuantityInput.value);
+// //   console.log(caseQuantityInputNumber);
+// var caseQuantityInputNumberNew=0;
+// if(isIncrease==true){
+//     caseQuantityInputNumberNew=caseQuantityInputNumber+1;
+// }
+
+// else if(isIncrease==false&&caseQuantityInputNumber>0)
+// {
+//    caseQuantityInputNumberNew=caseQuantityInputNumber-1;
+// }
+//  caseQuantityInput.value=caseQuantityInputNumberNew;
+//  const casePrice=caseQuantityInputNumberNew*59;
+// //  console.log(casePrice);
+//  document.getElementById('case-Price').innerText=casePrice;
+// }
         
    </script>
 </body>
